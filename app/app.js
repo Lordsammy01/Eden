@@ -84,6 +84,7 @@
   function initCalls() {
     if (calls) return;
     calls = new window.EdenCalls.CallManager({ signal: { send: s => api.sendSignal(s), clear: id => api.clearSignals(id) }, onState: renderCall, iceServers: CFG.ICE_SERVERS });
+    if (CFG.TURN_FETCH_URL) fetch(CFG.TURN_FETCH_URL).then(r => r.json()).then(list => { if (Array.isArray(list) && list.length) calls.iceServers = list.concat(CFG.ICE_SERVERS.filter(s => String(s.urls).includes('stun:'))); }).catch(() => {});
   }
 
   /* ---------- rendering ---------- */
