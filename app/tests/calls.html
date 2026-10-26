@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8"><title>calls test</title>
+<script src="../calls.js"></script>
+<script>
+// two phones wired through an in-page bus that mimics the database + live updates
+const log=[]; const mk=(id,name)=>{ const o={id,name,events:[]};
+  o.m=new EdenCalls.CallManager({iceServers:[], onState:s=>o.events.push(s.phase+(s.reason?':'+s.reason:'')),
+    signal:{ send:async s=>{ const peer=o.id==='A'?B:A; const row={from_user:o.id,to_user:s.to,call_id:s.callId,kind:s.kind,payload:s.payload,created_at:new Date().toISOString()}; setTimeout(()=>peer.m.handleSignal(row,()=>o.name),5); }, clear:()=>{} }});
+  return o; };
+const A=mk('A','Ada'), B=mk('B','Bayo');
+window.run=async()=>{
+  await A.m.start('B','Bayo');
+  await new Promise(r=>setTimeout(r,300));
+  const incoming=B.m.state.phase;
+  await B.m.accept();
+  for(let i=0;i<40 && !(A.m.state.phase==='connected'&&B.m.state.phase==='connected');i++) await new Promise(r=>setTimeout(r,250));
+  const both=[A.m.state.phase,B.m.state.phase];
+  await new Promise(r=>setTimeout(r,1300));
+  const secs=A.m.state.seconds;
+  A.m.toggleMute(); const muted=A.m.stream? A.m.stream.getAudioTracks()[0].enabled:null;
+  const tracks=B.m.pc? B.m.pc.getReceivers().filter(r=>r.track&&r.track.kind==='audio').length:0;
+  A.m.hangup(); await new Promise(r=>setTimeout(r,400));
+  const after=[A.m.state.phase,B.m.state.phase];
+  // decline path
+  await A.m.start('B','Bayo'); await new Promise(r=>setTimeout(r,300)); B.m.decline(); await new Promise(r=>setTimeout(r,400));
+  const declined=[A.m.state.reason,B.m.state.reason];
+  return {incoming,both,secs,muted,tracks,after,declined,evA:A.events,evB:B.events};
+};
+</script>
