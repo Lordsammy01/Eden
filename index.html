@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>EDEN – Phase 1 prototype</title>
+<meta name="theme-color" content="#14126B">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="EDEN">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -390,6 +398,28 @@ label.btn{cursor:pointer;position:relative}
 .crow input{flex:1;border:1px solid var(--line);border-radius:999px;padding:9px 14px;background:var(--screen);color:var(--ink)}
 .crow button{width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;flex:none}
 .cwho{font-size:11.5px;color:var(--muted);margin:2px 10px}
+
+/* ---- real-phone mode: the app fills the screen, no mockup frame ---- */
+#devbtn{display:none}
+@media (max-width:600px){
+  html,body{background:var(--screen);overscroll-behavior:none}
+  .top{display:none}
+  body.show-top .top{display:flex;position:fixed;top:0;left:0;right:0;z-index:300;max-height:100dvh;overflow:auto;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 16px;box-shadow:0 20px 40px -10px rgba(10,10,40,.45)}
+  .roles{flex-wrap:wrap;border-radius:18px;width:100%}
+  .roles button{padding:8px 12px;font-size:13.5px}
+  .brand span{display:none}
+  #devbtn{display:grid;place-items:center;position:fixed;left:10px;bottom:84px;z-index:250;width:34px;height:34px;border-radius:50%;background:rgba(20,18,107,.12);color:var(--brandText);border:1px solid rgba(20,18,107,.18);backdrop-filter:blur(6px)}
+  body.show-top #devbtn{bottom:auto;top:calc(10px + env(safe-area-inset-top,0px));right:10px;left:auto;z-index:301}
+  .stage:has(.phone){padding:0;gap:0;display:block}
+  .stage:has(.phone) .notes{display:none}
+  .phone{width:100%;height:100vh;height:100dvh;border-radius:0;padding:0;box-shadow:none;background:var(--screen)}
+  .screen{border-radius:0}
+  .statusbar{display:none}
+  .tb{padding-top:calc(14px + env(safe-area-inset-top,0px))}
+  .plain,.splash{padding-top:env(safe-area-inset-top,0px)}
+  .nav{padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(90px + env(safe-area-inset-bottom,0px))}
+}
 </style>
 </head>
 <body>
@@ -401,6 +431,7 @@ label.btn{cursor:pointer;position:relative}
     <linearGradient id="iconPurple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B5FC7"/><stop offset="1" stop-color="#5B3691"/></linearGradient>
   </defs>
 </svg>
+<button id="devbtn" aria-label="Switch view or reset demo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></button>
 <header class="top">
   <div class="brand"><b>EDEN</b><span>Phase 1 prototype · Redeemer's University</span></div>
   <div class="roles" id="roles" role="group" aria-label="View as"></div>
@@ -2817,6 +2848,11 @@ document.getElementById('reset').addEventListener('click', () => {
 function startSplash(){ setTimeout(() => { if(S.stage === 'splash'){ S.stage = 'welcome'; if(S.role === 'student') render(); } }, 2600); }
 const returning = loadAuth();
 render();
+
+document.getElementById('devbtn').addEventListener('click', () => document.body.classList.toggle('show-top'));
+document.getElementById('roles').addEventListener('click', e => { if(e.target.closest('[data-role]')) document.body.classList.remove('show-top'); });
+document.getElementById('reset').addEventListener('click', () => document.body.classList.remove('show-top'));
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
 startSplash();
 if(returning) toast(S.persona !== 'student' && S.users[S.persona] ? `Welcome back, ${S.users[S.persona].name.split(' ')[0]}` : 'Welcome back');
 </script>
