@@ -21,7 +21,9 @@
   const ago = d => { const s = Math.max(0, (Date.now() - new Date(d)) / 1000); return s < 60 ? 'just now' : s < 3600 ? Math.floor(s / 60) + ' min ago' : s < 86400 ? Math.floor(s / 3600) + ' h ago' : new Date(d).toLocaleDateString(); };
 
   const S = { ready: false, user: null, locations: [], vendors: [], menus: {}, orders: [], tx: [], msgs: {}, cart: { vendorId: null, q: {} }, myVendor: null, pending: [], authMode: 'login', err: '', busy: false, info: '' };
-  let calls = null, pollT = null, beepCtx = null;
+  let calls = null, pollT = null, beepCtx = null, sigT = null; const seenSig = new Set();
+  function onSignal(row) { if (!row || seenSig.has(row.id)) return; seenSig.add(row.id); calls.handleSignal(row, nameFor); }
+  function sigLoop() { clearTimeout(sigT); if (!S.user || !S.user.approved) return; api.pollSignals().then(rows => rows.forEach(onSignal)).catch(() => {}).finally(() => { const busy = calls && calls.state.phase !== 'idle'; sigT = setTimeout(sigLoop, busy ? 1200 : 4000); }); }
 
   /* ---------- helpers ---------- */
   const role = () => S.user && S.user.role;
@@ -73,8 +75,9 @@
         if (list && !list.some(m => m.id === row.id)) list.push(row);
         if (row.sender_id !== S.user.id) { const r = route(); if (!(r[0] === 'order' && String(r[1]) === String(row.order_id))) toast('New message on order #' + row.order_id); }
         render(); const c = document.querySelector('.chat'); if (c) c.scrollTop = c.scrollHeight;
-      } else if (k === 'signal') calls.handleSignal(row, nameFor);
+      } else if (k === 'signal') onSignal(row);
     });
+    sigLoop();
     clearInterval(pollT);
     pollT = setInterval(() => { if (S.user && S.user.approved) { refreshOrders(true); refreshWallet(); } }, 15000);
   }
@@ -280,7 +283,7 @@
     mode(d) { S.authMode = d.v; S.err = ''; S.info = ''; render(); },
     back() { history.length > 1 ? history.back() : go(homeRoute()); },
     refresh: async () => { await run(loadAll); render(); },
-    logout: async () => { clearInterval(pollT); calls = null; await api.signOut(); S.user = null; S.orders = []; S.msgs = {}; S.cart = { vendorId: null, q: {} }; S.myVendor = null; S.authMode = 'login'; location.hash = ''; render(); },
+    logout: async () => { clearInterval(pollT); clearTimeout(sigT); seenSig.clear(); calls = null; await api.signOut(); S.user = null; S.orders = []; S.msgs = {}; S.cart = { vendorId: null, q: {} }; S.myVendor = null; S.authMode = 'login'; location.hash = ''; render(); },
     inc(d) { if (S.cart.vendorId !== d.vendor) S.cart = { vendorId: d.vendor, q: {} }; S.cart.q[d.v] = Math.min(20, (S.cart.q[d.v] || 0) + 1); render(); },
     dec(d) { if (S.cart.vendorId !== d.vendor) return; S.cart.q[d.v] = Math.max(0, (S.cart.q[d.v] || 0) - 1); if (!S.cart.q[d.v]) delete S.cart.q[d.v]; render(); },
     async place() {

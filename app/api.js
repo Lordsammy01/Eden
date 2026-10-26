@@ -96,6 +96,12 @@
         must(await sb.from('call_signals').insert({ from_user: uid, to_user: to, call_id: callId, kind, payload: payload || {} }));
       },
       async clearSignals(callId) { await sb.from('call_signals').delete().eq('call_id', callId); },
+      // backup for live updates: recent signals addressed to me (oldest first)
+      async pollSignals() {
+        const since = new Date(Date.now() - 90000).toISOString();
+        const { data } = await sb.from('call_signals').select('*').eq('to_user', uid).gte('created_at', since).order('id');
+        return data || [];
+      },
       // live updates: cb(kind, row) where kind = orders | message | wallet | signal
       async subscribe(cb) {
         await this.unsubscribe();
@@ -220,6 +226,7 @@
       async pending() { if (user().role !== 'admin') fail('Admins only'); return Object.values(db.users).filter(u => !u.approved && u.role !== 'admin').map(u => ({ id: u.id, full_name: u.full_name, phone: u.phone, role: u.role, email: u.email })); },
       async setApproved(uid2, ok) { if (user().role !== 'admin') fail('Admins only'); db.users[uid2].approved = ok; },
       async sendSignal(s) { const row = { id: ++seq, from_user: cur, to_user: s.to, call_id: s.callId, kind: s.kind, payload: s.payload || {}, created_at: T() }; db.signals.push(row); if (db.users[s.to] && cb && s.to === cur) emit('signal', row); },
+      async pollSignals() { return []; },
       async clearSignals(cid) { db.signals = db.signals.filter(s => s.call_id !== cid); },
       async subscribe(fn) { cb = fn; },
       async unsubscribe() { cb = null; },
