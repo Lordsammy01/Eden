@@ -8,8 +8,13 @@ window.EDEN_CONFIG = {
   // Paste your Metered credentials URL here (looks like https://NAME.metered.live/api/v1/turn/credentials?apiKey=...)
   TURN_FETCH_URL: '',
   ICE_SERVERS: [
+    { urls: 'stun:stun.relay.metered.ca:80' },
     { urls: 'stun:stun.l.google.com:19302' },
-    // Free public relay for testing only. Replace with your own TURN account before launch.
-    { urls: ['turn:openrelay.metered.ca:80', 'turn:openrelay.metered.ca:443', 'turn:openrelay.metered.ca:443?transport=tcp', 'turns:openrelay.metered.ca:443?transport=tcp'], username: 'openrelayproject', credential: 'openrelayproject' }
+    { urls: [
+        'turn:global.relay.metered.ca:80',
+        'turn:global.relay.metered.ca:80?transport=tcp',
+        'turn:global.relay.metered.ca:443',
+        'turns:global.relay.metered.ca:443?transport=tcp'
+      ], username: 'd76dac1717d21c4ba73a1355', credential: 'Qydop6X+tCFZpuT6' }
   ]
 };
