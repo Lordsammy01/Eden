@@ -482,6 +482,25 @@ h1,h2,h3,.disp,.tb .h1,.tb .title,.walletchip b,.tile.hero b,.headline,.wcard .a
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .qi{background:#E3E7FB;color:#14126B}}
 :root[data-theme="dark"] .qi{background:#E3E7FB;color:#14126B}
 
+/* role + sign-in pages: navy hero with a sheet */
+.plain.nxp{padding-top:0;background:var(--screen)}
+.nxp-hero{position:relative;overflow:hidden;flex:none;background:linear-gradient(170deg,#0F0D56 0%,#14126B 55%,#0B0A3E 100%);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 4px) 24px 54px}
+.nxp-hero .statusbar{padding:12px 0 8px;position:relative;z-index:1}
+.nxp-hero .iconbtn{background:rgba(255,255,255,.14);color:#fff;margin-bottom:12px;position:relative;z-index:1}
+.nxp-brand{display:flex;align-items:center;gap:10px;margin-bottom:16px;position:relative;z-index:1}
+.nxp-brand img{width:34px;height:34px;border-radius:50%;background:#fff}
+.nxp-brand b{font-family:'Archivo Black','Arial Black',Arial,sans-serif;letter-spacing:.04em;font-size:18px}
+.nxp-hero h2{color:#fff;font-size:28px;line-height:1.1;letter-spacing:-.02em;margin:0;position:relative;z-index:1}
+.nxp-hero .psub2{color:rgba(255,255,255,.8);margin:6px 0 0;position:relative;z-index:1}
+.nxp-hero .c1{position:absolute;right:-70px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.06)}
+.nxp-hero .c2{position:absolute;right:-40px;bottom:-120px;width:200px;height:200px;border-radius:50%;background:rgba(232,201,74,.18)}
+.nxp-sheet{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--screen);border-radius:26px 26px 0 0;margin-top:-28px;position:relative;z-index:2}
+.nxp-sheet .pad{padding-top:22px}
+.nxp .opt.role{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:12px 14px}
+.nxp .opt[aria-pressed="true"]{background:var(--tint);border-color:var(--brand)}
+.nxp .in{background:var(--surface)}
+.nxp .ob-foot{padding:10px 22px 24px}
+
 /* ---- real-phone mode: the app fills the screen, no mockup frame ---- */
 #devbtn{display:none}
 @media (max-width:600px){
@@ -1696,16 +1715,14 @@ function welcomeScreen(){
       <button class="nx-link" data-act="haveAcct">I already have an account</button></div></div>`;
 }
 function roleScreen(){
-  return `<div class="plain">${sbar(true)}<div class="pad"><button class="iconbtn lite" data-act="stage" data-id="welcome" aria-label="Back">${ic('back')}</button>
-    <h2 class="ptitle">Select your role</h2><p class="psub2">Choose the option that best describes you</p>
+  return `<div class="plain nxp"><div class="nxp-hero">${sbar()}<button class="iconbtn" data-act="stage" data-id="welcome" aria-label="Back">${ic('back')}</button><div class="nxp-brand"><img src="data:image/png;base64,${CREST}" alt=""><b>EDEN</b></div><h2 class="ptitle">Select your role</h2><p class="psub2">Choose the option that best describes you</p><i class="c1"></i><i class="c2"></i></div><div class="nxp-sheet"><div class="pad">
     ${ROLES.map(r => `<button class="opt role" data-act="pickRole" data-id="${r.id}" aria-pressed="${S.userRole === r.id}"><span class="ricon">${icd(r.icon, 20)}</span><span><b>${r.name}</b><small>${r.desc}</small></span>${S.userRole === r.id ? `<span class="tick">${ic('check', 14)}</span>` : ''}</button>`).join('')}</div>
-    <div class="ob-foot"><button class="btn" data-act="stage" data-id="auth">Continue</button></div></div>`;
+    <div class="ob-foot"><button class="btn" data-act="stage" data-id="auth">Continue</button></div></div></div>`;
 }
 function authScreen(){
   const r = roleOf(S.userRole), su = S.authMode === 'signup', f = S.form;
   const fld = (label, key, type, ph, icon, attrs) => `<label class="fl"><span>${label}</span><span class="in">${ic(icon, 18)}<input data-form="${key}" type="${type}" value="${esc(f[key])}" placeholder="${esc(ph)}" ${attrs || ''}></span></label>`;
-  return `<div class="plain">${sbar(true)}<div class="pad"><button class="iconbtn lite" data-act="stage" data-id="role" aria-label="Back">${ic('back')}</button>
-    <h2 class="ptitle">${su ? 'Create Account' : 'Welcome back'}</h2><p class="psub2">${su ? 'Join the Redeemer community' : 'Sign in to continue'}</p>
+  return `<div class="plain nxp"><div class="nxp-hero">${sbar()}<button class="iconbtn" data-act="stage" data-id="role" aria-label="Back">${ic('back')}</button><div class="nxp-brand"><img src="data:image/png;base64,${CREST}" alt=""><b>EDEN</b></div><h2 class="ptitle">${su ? 'Create Account' : 'Welcome back'}</h2><p class="psub2">${su ? 'Join the Redeemer community' : 'Sign in to continue'}</p><i class="c1"></i><i class="c2"></i></div><div class="nxp-sheet"><div class="pad">
     <button class="rolechip" data-act="stage" data-id="role">${r.name} · Change</button>
     ${su ? fld('Full name', 'name', 'text', 'Your full name', 'user', 'autocomplete="name"') : ''}
     ${fld('Email address', 'email', 'email', r.emailPh, 'mail', 'autocomplete="email" inputmode="email"')}
@@ -1718,7 +1735,7 @@ function authScreen(){
     <div class="divider">Or continue with</div>
     <div class="socials"><button data-act="social">Google</button><button data-act="social">Apple</button></div>
     <p class="swap">${su ? 'Already have an account? <button class="link" data-act="mode" data-id="signin">Sign in</button>' : 'New to EDEN? <button class="link" data-act="mode" data-id="signup">Create account</button><br><button class="link" style="margin-top:8px" data-act="demo">Use demo account</button>'}</p>
-  </div></div>`;
+  </div></div></div>`;
 }
 const REASONS = ['Details don\'t match our records', 'Duplicate account', 'Not authorised for this role'];
 const pendingCount = () => S.requests.filter(q => q.status === 'pending').length;
