@@ -1401,22 +1401,43 @@ const BIBLE_VERSES = [
   {ref:'Proverbs 16:3', text:'Commit thy works unto the LORD, and thy thoughts shall be established.'},
   {ref:'2 Timothy 1:7', text:'For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.'},
   {ref:'Matthew 6:33', text:'But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.'},
-  {ref:'Psalm 118:24', text:'This is the day which the LORD hath made; we will rejoice and be glad in it.'}
+  {ref:'Psalm 118:24', text:'This is the day which the LORD hath made; we will rejoice and be glad in it.'},
+  {ref:'Psalm 27:1', text:'The LORD is my light and my salvation; whom shall I fear? the LORD is the strength of my life; of whom shall I be afraid?'},
+  {ref:'Proverbs 22:6', text:'Train up a child in the way he should go: and when he is old, he will not depart from it.'},
+  {ref:'Psalm 119:105', text:'Thy word is a lamp unto my feet, and a light unto my path.'},
+  {ref:'Isaiah 40:31', text:'But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.'},
+  {ref:'Philippians 4:6', text:'Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.'},
+  {ref:'Romans 12:2', text:'And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.'},
+  {ref:'Psalm 37:4', text:'Delight thyself also in the LORD; and he shall give thee the desires of thine heart.'},
+  {ref:'Proverbs 18:10', text:'The name of the LORD is a strong tower: the righteous runneth into it, and is safe.'},
+  {ref:'Matthew 11:28', text:'Come unto me, all ye that labour and are heavy laden, and I will give you rest.'},
+  {ref:'John 14:27', text:'Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.'},
+  {ref:'Colossians 3:23', text:'And whatsoever ye do, do it heartily, as to the Lord, and not unto men;'},
+  {ref:'Psalm 121:1–2', text:'I will lift up mine eyes unto the hills, from whence cometh my help. My help cometh from the LORD, which made heaven and earth.'},
+  {ref:'Proverbs 4:7', text:'Wisdom is the principal thing; therefore get wisdom: and with all thy getting get understanding.'},
+  {ref:'James 1:5', text:'If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.'},
+  {ref:'Galatians 6:9', text:'And let us not be weary in well doing: for in due season we shall reap, if we faint not.'},
+  {ref:'1 Corinthians 15:58', text:'Therefore, my beloved brethren, be ye stedfast, unmoveable, always abounding in the work of the Lord, forasmuch as ye know that your labour is not in vain in the Lord.'},
+  {ref:'Psalm 34:8', text:'O taste and see that the LORD is good: blessed is the man that trusteth in him.'},
+  {ref:'Micah 6:8', text:'He hath shewed thee, O man, what is good; and what doth the LORD require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?'},
+  {ref:'Hebrews 11:1', text:'Now faith is the substance of things hoped for, the evidence of things not seen.'},
+  {ref:'Deuteronomy 31:6', text:'Be strong and of a good courage, fear not, nor be afraid of them: for the LORD thy God, he it is that doth go with thee; he will not fail thee, nor forsake thee.'}
 ];
-function verseHourIdx(){ return Math.floor(Date.now() / 3600000); }
+const VERSE_MS = 10 * 60 * 1000;
+function verseHourIdx(){ return Math.floor(Date.now() / VERSE_MS); }
 function currentVerse(){ return BIBLE_VERSES[verseHourIdx() % BIBLE_VERSES.length]; }
 function announceVerseIfNew(key){
   const h = verseHourIdx();
-  if(S.verseSeen[key] !== h){ S.verseSeen[key] = h; const v = currentVerse(); setTimeout(() => toast(`📖 Verse of the hour — ${v.ref}`), 420); }
+  if(S.verseSeen[key] !== h){ S.verseSeen[key] = h; const v = currentVerse(); setTimeout(() => toast(`📖 New verse — ${v.ref}`), 420); }
 }
 function opUpdatesList(){ return S.ann.filter(a => a.aud === 'Everyone'); }
 function updatesScreen(){
   const list = visibleAnn(S.persona);
   const v = currentVerse();
   const verseCard = `<div class="ann" style="background:linear-gradient(135deg,rgba(20,18,107,0.06),rgba(232,201,74,0.1));border:1px solid rgba(20,18,107,0.14)">
-      <small class="tag" style="margin-bottom:6px;display:inline-block">Verse of the hour</small>
+      <small class="tag" style="margin-bottom:6px;display:inline-block">Verse of the moment</small>
       <p style="font-style:italic;margin:2px 0 6px">&ldquo;${esc(v.text)}&rdquo;</p>
-      <small><b>${esc(v.ref)}</b> · refreshes every hour for everyone on EDEN</small></div>`;
+      <small><b>${esc(v.ref)}</b> · a new verse every 10 minutes</small></div>`;
   const body = verseCard + list.map(a => `<div class="ann"><b>${esc(a.title)}</b><p>${esc(a.body)}</p><small><span class="tag">${a.aud === 'Course' ? 'Course · ' + esc(a.course) : esc(a.aud)}</span>${esc(a.from)} · ${a.t}</small></div>`).join('');
   return frame(plainHdr('Updates', S.persona === 'student' ? 'Campus announcements and your course notices' : 'Announcements for staff'), body, navbar());
 }
@@ -1563,9 +1584,9 @@ function sheetHtml(){
     const v = currentVerse(), list = opUpdatesList();
     inner = `<h3>Updates</h3><p>Campus-wide announcements from Management.</p>
       <div class="ann" style="background:linear-gradient(135deg,rgba(20,18,107,0.06),rgba(232,201,74,0.1));border:1px solid rgba(20,18,107,0.14)">
-        <small class="tag" style="margin-bottom:6px;display:inline-block">Verse of the hour</small>
+        <small class="tag" style="margin-bottom:6px;display:inline-block">Verse of the moment</small>
         <p style="font-style:italic;margin:2px 0 6px">&ldquo;${esc(v.text)}&rdquo;</p>
-        <small><b>${esc(v.ref)}</b> · refreshes every hour for everyone on EDEN</small></div>
+        <small><b>${esc(v.ref)}</b> · a new verse every 10 minutes</small></div>
       ${list.length ? list.map(a => `<div class="ann"><b>${esc(a.title)}</b><p>${esc(a.body)}</p><small><span class="tag">${esc(a.aud)}</span>${esc(a.from)} · ${a.t}</small></div>`).join('') : `<div class="empty" style="padding:18px 6px"><b>Nothing else right now</b>Campus-wide notices from Management will show up here.</div>`}`;
   } else if(s.type === 'roleProfile'){
     const id = roleIdentity();
@@ -2403,6 +2424,10 @@ function softRender(){
   if(a && app.contains(a) && /INPUT|TEXTAREA|SELECT/.test(a.tagName) && (a.dataset.model || a.dataset.form || a.dataset.note || a.dataset.facfield || a.dataset.svcfield || a.dataset.gate || a.dataset.forgot || a.hasAttribute('data-facmsg') || a.hasAttribute('data-ratecomment') || a.hasAttribute('data-chatmsg') || a.hasAttribute('data-phonefield') || a.hasAttribute('data-postfield') || a.hasAttribute('data-commentfield') || a.hasAttribute('data-dmfield') || a.hasAttribute('data-groupfield') || a.hasAttribute('data-peoplesearch') || a.hasAttribute('data-foodsearch') || a.hasAttribute('data-svcsearch') || a.hasAttribute('data-mktsearch'))) return;
   render();
 }
+
+/* a fresh verse every 10 minutes, updated on screen without a reload */
+let lastVerseIdx = verseHourIdx();
+setInterval(() => { const i = verseHourIdx(); if(i !== lastVerseIdx){ lastVerseIdx = i; if(app.innerText.includes('Verse of the moment')) softRender(); } }, 15000);
 
 /* ---------- actions ---------- */
 const ACT = {
