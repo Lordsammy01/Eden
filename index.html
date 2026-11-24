@@ -1456,9 +1456,16 @@ const VCAI_KB = [
   {kw:['wallet','top up','top-up','balance','fund my'], a:"Go to Wallet and tap Top up. Payments run through Paystack and your balance only updates once the payment is confirmed, so nothing is deducted silently."},
   {kw:['password','forgot','log in','login','sign in','sign up'], a:"On the sign-in screen, tap Forgot password to reset it, or Use demo account to get straight in for this preview. New vendor, staff and Management accounts need approval from Management before they can sign in."},
   {kw:['plate','driver','who is my driver'], a:"Once a driver accepts your ride, their name and their registered vehicle plate number appear on the ride card and in tracking — Management keeps the full registered fleet list."},
-  {kw:['about run','redeemer', 'university', 'school info', 'tell me about'], a:"Redeemer's University (RUN) is a private Nigerian university on the RCCG Redemption Camp estate in Ede, Osun State, with faculties spanning Arts, Law, Sciences, Engineering, Management Sciences, Social Sciences, Basic Medical Sciences, Environmental Sciences and Pharmacy. Ask me about a specific building or office and I'll point you the right way."},
+  {kw:['vice-chancellor','vice chancellor',' vc ','who is the vc','who runs'], a:"Redeemer's University is led by its Vice-Chancellor, Prof. Shadrach Olufemi Akindele (in office since 2023, as last reported). Office holders change, so check with the Registry for the latest."},
+  {kw:['pro-chancellor','pro chancellor','council chair','chairman of council'], a:"As last reported (October 2024), the Pro-Chancellor and Chairman of the Governing Council is Prof. Toyin Ogundipe, a former UNILAG Vice-Chancellor."},
+  {kw:['deputy vice','dvc'], a:"As last reported (March 2025), the Deputy Vice-Chancellor is Prof. Peter Aderonmu, a professor of Architecture."},
+  {kw:['provost','postgraduate'], a:"As last reported (March 2025), Prof. Adeleke Osho is Provost of the College of Postgraduate Studies."},
+  {kw:['registrar','bursar','librarian'], a:"As last reported in 2025: Pastor David Akintola was Acting Registrar, Dr. Pauline Adeniran was Acting University Librarian, and Mr. Samuel Momodu is the Bursar. These may have changed, so please confirm with the Registry."},
+  {kw:['dean','hod','head of department'], a:"Deans and Heads of Department are re-appointed each academic session, so I can't be sure who holds a post right now. The Registry or your department office can confirm. I'm happy to help with anything else on campus."},
+  {kw:['about run','redeemer', 'university', 'school info', 'tell me about','founded','history'], a:"Redeemer's University (RUN) is a private university owned by the Redeemed Christian Church of God, in Ede, Osun State. It was licensed in January 2005 and began classes that October. The campus covers about 812 hectares and the motto is “Running with a Vision”. It has faculties including Humanities, Management Sciences, Social Sciences, Natural Sciences, Basic Medical Sciences, Law, Engineering and Built Environment. Ask me about a specific building or office and I'll point you the right way."},
   {kw:['hostel','cafeteria','library','faculty','where is'], a:"You can see every campus location — hostels, cafeterias, the Tekena Tamuno Library, faculties and staff areas — as pickup/delivery points across Food, Rides and Facilities Requests. Open any of those and tap the location selector to browse the full list."}
 ];
+const RUN_FACTS = "Private university owned by the RCCG, in Ede, Osun State; licensed Jan 2005, classes began Oct 2005; about 812 hectares; motto Running with a Vision. Visitor: Pastor E.A. Adeboye. Chancellor: Gen. T.Y. Danjuma (Rtd). Pro-Chancellor and Council Chair: Prof. Toyin Ogundipe (Oct 2024). Vice-Chancellor: Prof. Shadrach Olufemi Akindele (since 2023). Deputy VC: Prof. Peter Aderonmu (Mar 2025). Provost, Postgraduate College: Prof. Adeleke Osho (Mar 2025). Acting Registrar Pastor David Akintola and Acting Librarian Dr. Pauline Adeniran (Feb 2025); Bursar Mr. Samuel Momodu (2025). Past VCs: Tomori, Adeyewa, Akinlo. Faculties: Humanities, Management Sciences, Social Sciences, Natural Sciences, Basic Medical Sciences, Law, Engineering, Built Environment. Deans and HODs change every August and current names are unknown: do not state them. Fees and student numbers are unknown.";
 function vcaiMatch(text){
   const t = text.toLowerCase();
   const hit = VCAI_KB.find(e => e.kw.some(k => t.includes(k)));
@@ -1480,6 +1487,7 @@ function vcaiContext(){
     }
     L.push('Kitchens: ' + VENDORS.map(v => `${v.name} (${v.cuisine}, ${v.eta}, open ${v.hours}${S.closed[v.id] ? ', CLOSED right now' : ''})`).join('; ') + '.');
     L.push('Local time: ' + new Date().toLocaleTimeString('en-NG', {hour:'2-digit', minute:'2-digit'}) + '.');
+    L.push('Redeemer\'s University facts (dated; if unsure, say so and refer to the Registry; never invent names): ' + RUN_FACTS);
     L.push('How EDEN works: ' + VCAI_KB.map(e => e.a).join(' '));
     return L.join('\n');
   }catch(e){ return ''; }
