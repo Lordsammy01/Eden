@@ -399,6 +399,89 @@ label.btn{cursor:pointer;position:relative}
 .crow button{width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;flex:none}
 .cwho{font-size:11.5px;color:var(--muted);margin:2px 10px}
 
+
+/* ---- Nexora look: light headers, balance card, quick actions, raised centre nav ---- */
+:root{--shadow:0 1px 2px rgba(20,18,107,.04),0 10px 24px -14px rgba(20,18,107,.18)}
+h1,h2,h3,.disp,.tb .h1,.tb .title,.walletchip b,.tile.hero b,.headline,.wcard .amt,.stat b,.pname,.mono{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:800;letter-spacing:-.02em}
+.tb{background:var(--surface);color:var(--ink);border-bottom:1px solid var(--line)}
+.tb .sm,.tb .sub{color:var(--muted);opacity:1}
+.tb .h1{font-size:22px}
+.tb .title{font-size:20px}
+.iconbtn{background:var(--tint);color:var(--brandText)}
+.walletchip{background:var(--tint);color:var(--ink)}
+.walletchip span{opacity:1;color:var(--muted)}
+.cam{border-color:var(--surface)}
+.psubw{opacity:1;color:var(--muted)}
+.card,.pcard{border-radius:20px;box-shadow:var(--shadow)}
+.vrow{border-radius:18px;box-shadow:var(--shadow)}
+.hhead{gap:12px}
+.hhead .hg{flex:1;min-width:0}
+.bell{position:relative;width:42px;height:42px;border-radius:50%;background:var(--tint);color:var(--brandText);display:grid;place-items:center;flex:none}
+.bell i{position:absolute;top:9px;right:10px;width:9px;height:9px;border-radius:50%;background:#EF4444;border:2px solid var(--surface)}
+.bcard{position:relative;overflow:hidden;background:var(--hdrGrad);color:#fff;border-radius:22px;padding:18px 18px 16px;box-shadow:0 18px 30px -18px rgba(20,18,107,.7)}
+.bcard .lbl{display:flex;gap:8px;align-items:center;font-size:13px;opacity:.85;position:relative}
+.bcard .bamt{font-weight:800;font-size:34px;letter-spacing:-.02em;margin:6px 0 12px;position:relative}
+.bcard .bf{display:flex;justify-content:space-between;align-items:center;gap:10px;position:relative;font-size:12.5px}
+.bcard .bf span{opacity:.85}
+.bcard .arc{position:absolute;right:-70px;bottom:-100px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.07)}
+.bcard .arc2{position:absolute;right:-110px;bottom:-130px;width:230px;height:230px;border-radius:50%;background:rgba(232,201,74,.16)}
+.bcard .btn.sm{width:auto;background:#fff;color:#14126B;box-shadow:none;padding:9px 16px;border-radius:999px}
+.qrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 6px}
+.qrow button{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink)}
+.qi{width:58px;height:58px;border-radius:20px;background:var(--tint);color:var(--brandText);display:grid;place-items:center;flex:none}
+.sech{display:flex;justify-content:space-between;align-items:baseline;margin:22px 2px 10px}
+.scroll .sech h2{margin:0;font-size:17px}
+.sech button{color:var(--brandText);font-weight:700;font-size:13px}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qcard{display:flex;align-items:center;gap:9px;padding:11px;border-radius:18px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);text-align:left;min-width:0}
+.qcard .qi{width:36px;height:36px;border-radius:12px}
+.qcard span.t{min-width:0;flex:1}
+.qcard b{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qcard small{display:block;color:var(--muted);font-size:11.5px;line-height:1.25}
+.qcard em{color:var(--muted);transform:rotate(180deg);display:grid;flex:none}
+.txr{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.txr:last-child{border-bottom:0}
+.txr .qi{width:42px;height:42px;border-radius:50%}
+.txr .tm{flex:1;min-width:0}
+.txr .tm b{display:block;font-size:14px}
+.txr .tm small{color:var(--muted);font-size:12px}
+.txr .amt{font-weight:800;font-size:14px;white-space:nowrap}
+.txr .amt.pos{color:var(--ok)}
+.fchips{display:flex;gap:8px;margin:14px 0 4px}
+.fchips button{padding:8px 16px;border-radius:999px;background:var(--tint);color:var(--brandText);font-weight:700;font-size:13px}
+.fchips button[aria-pressed="true"]{background:var(--brand);color:var(--screen)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:4px 14px;box-shadow:var(--shadow)}
+.nav{padding:6px 6px 12px;box-shadow:0 -10px 24px -18px rgba(20,18,107,.28)}
+.nav button{font-size:11.5px}
+.nav button[aria-current="page"]{color:var(--brandText);font-weight:800}
+.nav button .navic,.nav button[aria-current="page"] .navic{width:24px;height:24px;margin-top:0;background:none;box-shadow:none;border-radius:0;color:inherit}
+.nav button[aria-current="page"]::after{content:'';position:absolute;bottom:-4px;width:18px;height:3px;border-radius:3px;background:var(--amber)}
+.nav button.nc{overflow:visible}
+.nav button.nc .navic{width:54px;height:54px;margin-top:-28px;border-radius:50%;background:linear-gradient(145deg,#1C1878,#14126B);color:#E8C94A;box-shadow:0 10px 20px -8px rgba(20,18,107,.6),0 0 0 6px var(--surface)}
+.nav button.nc .nl{display:none}
+.nav button.nc{padding-bottom:4px;min-height:34px}
+.nav button.nc[aria-current="page"]::after{display:none}
+/* welcome, in the Nexora layout */
+.nxw{background:linear-gradient(170deg,#0F0D56 0%,#14126B 48%,#0B0A3E 100%);color:#fff;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.nxw .nx-brand{display:flex;gap:12px;align-items:center;padding:calc(18px + env(safe-area-inset-top,0px)) 26px 0;position:relative;z-index:2}
+.nxw .nx-brand img{width:44px;height:44px;border-radius:50%;background:#fff;flex:none}
+.nxw .nx-brand b{font-family:'Archivo Black','Arial Black',Arial,sans-serif;font-size:22px;letter-spacing:.04em;display:block;line-height:1.1}
+.nxw .nx-brand small{opacity:.75;font-size:12px}
+.nxw .nx-copy{padding:46px 26px 0;position:relative;z-index:2}
+.nxw h1{font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:40px;line-height:1.05;letter-spacing:-.03em}
+.nxw h1 em{font-style:normal;color:var(--amber)}
+.nxw .nx-copy p{margin-top:16px;max-width:25ch;opacity:.85;font-size:16px;line-height:1.4}
+.nxw .nx-art{position:absolute;right:-80px;bottom:118px;width:320px;height:320px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 18px rgba(255,255,255,.04)}
+.nxw .nx-foot{margin-top:auto;padding:0 24px 26px;display:grid;gap:14px;position:relative;z-index:2}
+.nxw .dots{justify-content:flex-start}
+.nxw .dots b{background:rgba(255,255,255,.3)}
+.nxw .dots b.on{background:var(--amber)}
+.nxw .btn{background:#fff;color:#14126B;box-shadow:none;border-radius:999px;padding:16px;font-size:16px}
+.nx-link{color:#fff;text-align:center;font-weight:600;font-size:14px;padding:4px;opacity:.9}
+
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .qi{background:#E3E7FB;color:#14126B}}
+:root[data-theme="dark"] .qi{background:#E3E7FB;color:#14126B}
+
 /* ---- real-phone mode: the app fills the screen, no mockup frame ---- */
 #devbtn{display:none}
 @media (max-width:600px){
@@ -409,6 +492,7 @@ label.btn{cursor:pointer;position:relative}
   .roles button{padding:8px 12px;font-size:13.5px}
   .brand span{display:none}
   #devbtn{display:grid;place-items:center;position:fixed;left:10px;bottom:84px;z-index:250;width:34px;height:34px;border-radius:50%;background:rgba(20,18,107,.12);color:var(--brandText);border:1px solid rgba(20,18,107,.18);backdrop-filter:blur(6px)}
+  body:has(.nxw) #devbtn{bottom:auto;top:calc(10px + env(safe-area-inset-top,0px));left:auto;right:10px}
   body.show-top #devbtn{bottom:auto;top:calc(10px + env(safe-area-inset-top,0px));right:10px;left:auto;z-index:301}
   .stage:has(.phone){padding:0;gap:0;display:block}
   .stage:has(.phone) .notes{display:none}
@@ -450,6 +534,7 @@ const N = v => '₦' + Math.round(v).toLocaleString('en-NG');
 const nowT = () => new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const IC = {
+  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
   home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
   bag:'<path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/>',
   wallet:'<path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v11a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2z"/><circle cx="16.5" cy="14.5" r="1"/>',
@@ -732,7 +817,7 @@ function initState(){
       {who:'Bola A.', stars:5, text:'Called ahead to confirm the room number, appreciated that.', when:'1 week ago'}
     ],
     offline:false,
-    stage:'splash', slide:0, userRole:'student', authMode:'signup', form:{name:'', email:'', id:'', pass:''}, showPass:false, busy:false, err:'',
+    stage:'splash', slide:0, txFilter:'all', userRole:'student', authMode:'signup', form:{name:'', email:'', id:'', pass:''}, showPass:false, busy:false, err:'',
     session:{academic:false, nonacademic:false, vendor:false, admin:false, rider:false},
     launched:{academic:false, nonacademic:false, vendor:false, admin:false, rider:false},
     gate:{email:'', pass:'', showPass:false, busy:false, err:'', notice:null},
@@ -1002,14 +1087,14 @@ function advanceFac(x, next){
   if(x.mine) toast(`${x.id}: ${FAC_LABEL[next]}`);
 }
 const NAVS = {
-  student:[['home','Home','home'],['orders','Orders','bag'],['wallet','Wallet','wallet'],['updates','Updates','bell'],['profile','Profile','user']],
+  student:[['home','Home','home'],['orders','Orders','bag'],['food','Order food','fork'],['wallet','Wallet','wallet'],['profile','Profile','user']],
   academic:[['home','Home','home'],['orders','Orders','bag'],['students','Students','chat'],['updates','Updates','bell'],['profile','Profile','user']],
   nonacademic:[['home','Home','home'],['orders','Orders','bag'],['requests','Requests','tool'],['updates','Updates','bell'],['profile','Profile','user']]
 };
 function navbar(){
   const live = mineOrders().some(isLive);
   const unread = S.persona === 'academic' && S.threads.some(t => t.unread);
-  return `<nav class="nav" aria-label="Main">${NAVS[S.persona].map(x => `<button data-act="tab" data-id="${x[0]}" ${S.tab === x[0] ? 'aria-current="page"' : ''}><span class="navic">${ic(x[2], S.tab === x[0] ? 18 : 22)}</span>${x[1]}${(x[0] === 'orders' && live) || (x[0] === 'students' && unread) ? '<i class="dot"></i>' : ''}</button>`).join('')}</nav>`;
+  return `<nav class="nav" aria-label="Main">${NAVS[S.persona].map((x, i) => `<button class="${i === 2 ? 'nc' : ''}" data-act="${x[0] === 'food' ? 'foodGo' : 'tab'}" data-id="${x[0]}" aria-label="${x[1]}" ${S.tab === x[0] ? 'aria-current="page"' : ''}><span class="navic">${ic(x[2], i === 2 ? 26 : 22)}</span><span class="nl">${x[1]}</span>${(x[0] === 'orders' && live) || (x[0] === 'students' && unread) ? '<i class="dot"></i>' : ''}</button>`).join('')}</nav>`;
 }
 function frame(hdr, body, foot){ return `${hdr}${offlineBar()}<div class="scroll">${body}</div>${foot || ''}`; }
 
@@ -1021,6 +1106,9 @@ function vendorRow(v){
       <div class="tags">${closed ? `<span class="tag">Closed · opens ${v.hours.split(' –')[0]}</span>` : `<span class="tag">${v.eta}</span>${v.late ? '<span class="tag">Open late</span>' : ''}`}</div>
     </div></button>`;
 }
+function txIcon(t){ return /^Order|Campus Marketplace/.test(t.label) ? 'bag' : /Ride|Shuttle|cab/i.test(t.label) ? 'car' : /Refund/.test(t.label) ? 'wallet' : /top-up/i.test(t.label) ? 'plus' : 'wallet'; }
+function txRow(t){ return `<div class="txr"><span class="qi">${ic(txIcon(t), 20)}</span><div class="tm"><b>${esc(t.label)}</b><small>${t.when} · ${t.status}</small></div><span class="amt ${t.amt > 0 ? 'pos' : ''}">${t.amt > 0 ? '+' : '−'}${N(Math.abs(t.amt))}</span></div>`; }
+function secHead(title, act, id, label){ return `<div class="sech"><h2>${title}</h2>${act ? `<button data-act="${act}" ${id ? `data-id="${id}"` : ''}>${label || 'See all'}</button>` : ''}</div>`; }
 function greetName(){
   const w = S.user.name.trim().split(/\s+/);
   return S.persona !== 'student' && w.length > 1 && /\.$/.test(w[0]) ? `${w[0]} ${w[w.length - 1]}` : w[0];
@@ -1029,8 +1117,14 @@ function homeScreen(){
   const p = S.persona, u = S.user;
   const a = visibleAnn(p)[0] || {title:'No announcements yet', from:'', t:''};
   const loc = locById(S.loc);
-  const hdr = tb(`<div class="tb-row"><div><div class="sm">Good afternoon${p !== 'student' && u.unit ? ' · ' + esc(u.unit) : ''}</div><div class="h1">${esc(greetName())}</div></div><button class="avbtn" data-act="tab" data-id="profile" aria-label="Your profile">${avatarHtml()}</button></div>
-    <button class="walletchip" data-act="tab" data-id="wallet"><span>${ic('wallet',18)} Wallet</span><b>${N(S.wallet)}</b></button>`);
+  const hdr = tb(`<div class="tb-row hhead"><button class="avbtn" data-act="tab" data-id="profile" aria-label="Your profile">${avatarHtml()}</button><div class="hg"><div class="sm">Good afternoon${p !== 'student' && u.unit ? ' \u00b7 ' + esc(u.unit) : ','}</div><div class="h1">${esc(greetName())}</div></div><button class="bell" data-act="tab" data-id="updates" aria-label="Announcements">${ic('bell', 20)}${visibleAnn(p).length ? '<i></i>' : ''}</button></div>`);
+  const bal = `<div class="bcard"><i class="arc"></i><i class="arc2"></i><div class="lbl">${ic('wallet', 16)} Wallet balance</div><div class="bamt">${N(S.wallet)}</div><div class="bf"><span>Pay for food, rides and more</span><button class="btn sm" data-act="topup">+ Top up</button></div></div>
+    <div class="qrow">
+      <button data-act="kitchens"><span class="qi">${icd('fork', 24)}</span>Food</button>
+      <button data-act="go" data-id="rides"><span class="qi">${icd('car', 24)}</span>Rides</button>
+      <button data-act="go" data-id="services"><span class="qi">${icd('tool', 24)}</span>Services</button>
+      <button data-act="go" data-id="market"><span class="qi">${icd('bag', 24)}</span>Market</button>
+    </div>`;
   let block = '';
   if(p === 'academic') block = `
     <div class="card" style="margin-top:12px"><b>Today</b>
@@ -1048,19 +1142,20 @@ function homeScreen(){
   const fq = S.foodSearch.trim().toLowerCase();
   const vlist = !fq ? base : base.filter(v => v.name.toLowerCase().includes(fq) || v.cuisine.toLowerCase().includes(fq) || (MENU[v.id] || []).some(i => i.name.toLowerCase().includes(fq)));
   const body = `
-    <button class="banner" data-act="tab" data-id="updates"><span class="bicon">${icd('mega',18)}</span><span><b>${esc(a.title)}</b><small>${a.from}${a.from ? ' · ' : ''}${a.t}</small></span></button>
+    ${bal}
+    <button class="banner" style="margin-top:12px" data-act="tab" data-id="updates"><span class="bicon">${icd('mega',18)}</span><span><b>${esc(a.title)}</b><small>${a.from}${a.from ? ' · ' : ''}${a.t}</small></span></button>
     ${block}
-    <button class="loc" data-act="openLoc">${ic('pin',18)}<span>Deliver to <b>${loc.name}</b></span><em>Change</em></button>
-    <div class="tiles">
-      <button class="tile hero" data-act="kitchens"><span class="ic">${icd('fork',24)}</span><span><b>Order food</b><small>${VENDORS.filter(v => !S.closed[v.id]).length} kitchens open, delivered to you</small></span></button>
-      <button class="tile" data-act="go" data-id="rides">${icd('car',22)}<b>Rides</b><small>Shuttle & cabs</small></button>
-      <button class="tile" data-act="go" data-id="services">${icd('tool',22)}<b>Services</b><small>Laundry, repairs</small></button>
-      <button class="tile" data-act="go" data-id="market">${icd('bag',22)}<b>Market</b><small>Shop The Container</small></button>
-      <button class="tile" data-act="go" data-id="social">${icd('users',22)}<b>Social</b><small>Feed, chats & groups</small></button>
+    ${secHead('Quick actions')}
+    <div class="qgrid">
+      <button class="qcard" data-act="openLoc"><span class="qi">${ic('pin', 18)}</span><span class="t"><b>Deliver to</b><small>${loc.name}</small></span><em>${ic('back', 16)}</em></button>
+      <button class="qcard" data-act="go" data-id="social"><span class="qi">${icd('users', 18)}</span><span class="t"><b>Social</b><small>Feed, chats, groups</small></span><em>${ic('back', 16)}</em></button>
+      <button class="qcard" data-act="topup"><span class="qi">${ic('plus', 18)}</span><span class="t"><b>Top up</b><small>Add money</small></span><em>${ic('back', 16)}</em></button>
+      <button class="qcard" data-act="tab" data-id="updates"><span class="qi">${icd('mega', 18)}</span><span class="t"><b>Updates</b><small>Campus news</small></span><em>${ic('back', 16)}</em></button>
     </div>
-    <h2 id="kitchens">Kitchens</h2>
+    <div class="sech" id="kitchens"><h2>Kitchens</h2></div>
     <span class="in" style="margin-bottom:10px">${ic('search', 18)}<input data-foodsearch value="${esc(S.foodSearch)}" placeholder="Search kitchens or dishes" aria-label="Search food"></span>
-    ${vlist.length ? vlist.map(vendorRow).join('') : `<div class="empty" style="padding:22px 6px"><b>No matches</b>Try a different kitchen or dish name.</div>`}`;
+    ${vlist.length ? vlist.map(vendorRow).join('') : `<div class="empty" style="padding:22px 6px"><b>No matches</b>Try a different kitchen or dish name.</div>`}
+    ${S.txs.length ? secHead('Recent activity', 'tab', 'wallet') + `<div class="panel">${S.txs.slice(0, 3).map(txRow).join('')}</div>` : ''}`;
   return frame(hdr, body, navbar());
 }
 function menuScreen(){
@@ -1266,10 +1361,14 @@ function ordersScreen(){
   return frame(plainHdr('Orders', 'Track what you\'ve ordered'), body, navbar());
 }
 function walletScreen(){
-  const body = `<div class="wcard"><small>Wallet balance</small><div class="amt">${N(S.wallet)}</div><button class="btn amber" data-act="topup">Top up wallet</button></div>
-    <h2>Activity</h2>
-    ${S.txs.map(t => `<div class="tx"><div>${esc(t.label)}<small>${t.when} · ${t.status}</small></div><span class="${t.amt > 0 ? 'pos' : ''}">${t.amt > 0 ? '+' : '−'}${N(Math.abs(t.amt))}</span></div>`).join('')}`;
-  return frame(plainHdr('Wallet', 'Top up once, pay instantly'), body, navbar());
+  const f = S.txFilter || 'all';
+  const list = S.txs.filter(t => f === 'all' || (f === 'in' ? t.amt > 0 : t.amt < 0));
+  const chip = (id, l) => `<button data-act="txf" data-id="${id}" aria-pressed="${f === id}">${l}</button>`;
+  const body = `<div class="bcard"><i class="arc"></i><i class="arc2"></i><div class="lbl">${ic('wallet', 16)} Wallet balance</div><div class="bamt" style="font-size:38px">${N(S.wallet)}</div><div class="bf"><span>Top up once, pay instantly</span><button class="btn sm" data-act="topup">+ Top up</button></div></div>
+    <div class="fchips">${chip('all', 'All')}${chip('in', 'Money in')}${chip('out', 'Money out')}</div>
+    ${secHead('Transactions')}
+    <div class="panel">${list.map(txRow).join('') || '<div class="empty" style="padding:22px 6px"><b>Nothing here yet</b></div>'}</div>`;
+  return frame(plainHdr('Wallet', 'Your balance and activity'), body, navbar());
 }
 const BIBLE_VERSES = [
   {ref:'Proverbs 3:5–6', text:'Trust in the LORD with all thine heart; and lean not unto thine own understanding.'},
@@ -1569,15 +1668,32 @@ function splashScreen(act, id){
     <div class="sp-foot"><div class="loadbar"><i></i></div><span>Redeemer's University</span><em>...running with the vision</em></div></div>`;
 }
 const SLIDES = [
-  {icon:'fork', t:'Order food to your door', d:'Browse campus kitchens and get meals delivered to your hostel, office or the health center.'},
-  {icon:'wallet', t:'Pay from one wallet', d:'Top up once and pay instantly. Follow every order from the kitchen to your door.'},
-  {icon:'mega', t:'Stay in the loop', d:'Official announcements from the university reach you in one trusted place.'}
+  {l1:'Your campus.', l2:'In one app.', d:'Order food, ride, shop and stay in the loop, all from your phone.'},
+  {l1:'Pay once.', l2:'Spend anywhere.', d:'Top up your wallet once and pay instantly. Follow every order to your door.'},
+  {l1:'Stay in', l2:'the loop.', d:'Official announcements from the university reach you in one trusted place.'}
 ];
+function nxArt(){
+  return `<svg viewBox="0 0 320 320" width="100%" height="100%" aria-hidden="true"><defs>
+    <linearGradient id="nxsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FA4F7"/><stop offset=".55" stop-color="#3F5FD0"/><stop offset="1" stop-color="#1B1A86"/></linearGradient>
+    <linearGradient id="nxg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9DB8F5"/><stop offset="1" stop-color="#2B3FA8"/></linearGradient>
+    <linearGradient id="nxg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4A66D6"/><stop offset="1" stop-color="#14126B"/></linearGradient>
+    <pattern id="nxwin" width="14" height="16" patternUnits="userSpaceOnUse"><rect width="14" height="16" fill="none"/><rect x="2" y="3" width="10" height="3" fill="#E8EEFF" opacity=".55"/></pattern></defs>
+    <rect width="320" height="320" fill="url(#nxsky)"/>
+    <ellipse cx="230" cy="70" rx="70" ry="22" fill="#fff" opacity=".85"/><ellipse cx="190" cy="82" rx="50" ry="18" fill="#fff" opacity=".9"/><ellipse cx="90" cy="120" rx="46" ry="14" fill="#fff" opacity=".55"/>
+    <polygon points="70,320 70,150 150,110 150,320" fill="url(#nxg1)"/><polygon points="70,150 150,110 150,320 70,320" fill="url(#nxwin)"/>
+    <polygon points="150,110 250,150 250,320 150,320" fill="url(#nxg2)"/><polygon points="150,110 250,150 250,320 150,320" fill="url(#nxwin)" opacity=".7"/>
+    <polygon points="150,110 70,150 160,128" fill="#fff" opacity=".35"/>
+    <rect x="148" y="98" width="3" height="14" fill="#E8C94A"/><circle cx="149.5" cy="96" r="3" fill="#E8C94A"/></svg>`;
+}
 function welcomeScreen(){
   const s = SLIDES[S.slide], last = S.slide === SLIDES.length - 1;
-  return `<div class="plain">${sbar(true)}<div class="ob-top"><span></span><button class="skip" data-act="skipWelcome">Skip</button></div>
-    <div class="ob-mid"><div class="art">${icd(s.icon, 72)}<i class="a1"></i><i class="a2"></i></div><h2>${s.t}</h2><p>${s.d}</p></div>
-    <div class="ob-foot"><div class="dots" aria-hidden="true">${SLIDES.map((_, i) => `<b class="${i === S.slide ? 'on' : ''}"></b>`).join('')}</div><button class="btn" data-act="nextSlide">${last ? 'Get started' : 'Next'}</button></div></div>`;
+  return `<div class="splash nxw" style="cursor:default">${sbar()}
+    <div class="nx-brand"><img src="data:image/png;base64,${CREST}" alt=""><div><b>EDEN</b><small>Your all-in-one campus companion</small></div></div>
+    <div class="nx-art">${nxArt()}</div>
+    <div class="nx-copy"><h1>${s.l1}<br><em>${s.l2}</em></h1><p>${s.d}</p></div>
+    <div class="nx-foot"><div class="dots" aria-hidden="true">${SLIDES.map((_, i) => `<b class="${i === S.slide ? 'on' : ''}"></b>`).join('')}</div>
+      <button class="btn" data-act="nextSlide">${last ? 'Get started' : 'Next'} ${ic('arrow', 18)}</button>
+      <button class="nx-link" data-act="haveAcct">I already have an account</button></div></div>`;
 }
 function roleScreen(){
   return `<div class="plain">${sbar(true)}<div class="pad"><button class="iconbtn lite" data-act="stage" data-id="welcome" aria-label="Back">${ic('back')}</button>
@@ -2522,6 +2638,8 @@ const ACT = {
   },
   roleLaunched(role){ S.launched[role] = true; render(); },
   skipSplash(){ if(S.stage === 'splash'){ S.stage = 'welcome'; render(); } },
+  haveAcct(){ S.stage = 'auth'; S.authMode = 'signin'; S.err = ''; S.form = {name:'', email:'', id:'', pass:''}; render(); },
+  txf(id){ S.txFilter = id; render(); },
   skipWelcome(){ S.stage = 'role'; render(); },
   nextSlide(){ if(S.slide < SLIDES.length - 1) S.slide++; else S.stage = 'role'; render(); },
   stage(id){ S.stage = id; S.err = ''; if(id === 'welcome') S.slide = 0; render(); },
@@ -2682,6 +2800,7 @@ const ACT = {
     render();
   },
   go(id){ S.screen = id; render(); window.scrollTo({top:0}); },
+  foodGo(){ if(S.tab !== 'home' || S.screen !== 'home'){ S.tab = S.screen = 'home'; S.sheet = null; render(); } setTimeout(() => { const el = document.getElementById('kitchens'); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }, 30); },
   kitchens(){ const el = document.getElementById('kitchens'); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); },
   vendor(id){
     if(S.closed[id]){ toast(`${vendorById(id).name} is closed right now`); return; }
