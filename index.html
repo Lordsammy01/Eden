@@ -1494,14 +1494,16 @@ function vcaiContext(){
 }
 async function vcaiLive(text, bubble){
   const hist = S.vcai.msgs.filter(m => !m.typing).slice(0, -1).slice(-8).map(m => ({role: m.who === 'me' ? 'user' : 'assistant', text: m.text}));
-  let reply = '';
+  let reply = '', dbg = 'empty reply';
   try{
     const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 20000);
     const r = await fetch(VCAI_ENDPOINT, {method:'POST', signal:ctl.signal, headers:{'Content-Type':'application/json', apikey:VCAI_KEY}, body:JSON.stringify({message:text, history:hist, context:vcaiContext()})});
     clearTimeout(t);
     if(r.ok){ const j = await r.json(); reply = String(j.reply || '').trim(); }
-  }catch(e){}
-  bubble.typing = false; bubble.text = reply || vcaiMatch(text); bubble.live = !!reply;
+    else { dbg = 'HTTP ' + r.status + ' ' + (await r.text().catch(() => '')).slice(0, 200); }
+  }catch(e){ dbg = 'Error: ' + (e && e.message || e); }
+  if(!reply) console.warn('VC AI live call failed:', dbg);
+  bubble.typing = false; bubble.text = reply || (vcaiMatch(text) + (/[?&]debug/.test(location.search) ? '\n\n[debug] ' + dbg : '')); bubble.live = !!reply;
   S.vcai.busy = false; render();
   setTimeout(() => { const sc = document.getElementById('vcaiMsgs'); if(sc) sc.scrollTop = 1e6; const inp = document.getElementById('vcaiInput'); if(inp) inp.focus(); }, 30);
 }
