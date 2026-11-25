@@ -127,7 +127,9 @@ export async function handle(req: Request): Promise<Response> {
     if (!reply) return json({ error: "empty reply" }, 502, h);
     return json({ reply: reply.slice(0, 1200) }, 200, h);
   } catch (e) {
-    return json({ error: "unavailable" }, 502, h);
+    const detail = String((e as any)?.message || e).slice(0, 80);
+    console.error("vc-ai model call failed:", detail);
+    return json({ error: "unavailable", detail }, 502, h);
   }
 }
 
