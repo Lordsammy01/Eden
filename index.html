@@ -245,8 +245,9 @@ h1,h2,h3,.disp{font-family:'Archivo Black','DM Sans',system-ui,sans-serif;letter
 .tabs button{padding:8px 16px;border-radius:999px;font-weight:700;font-size:14px;color:var(--muted);border:1px solid var(--line);background:var(--surface)}
 .tabs button[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
 .sel{padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-weight:700}
+.grid2>div,.panel{min-width:0}
 .grid2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px}
-@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+@media (max-width:900px){.grid2{grid-template-columns:minmax(0,1fr)}}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px}
 .panel h3{font-size:17px;margin-bottom:10px}
 .panel .scrollx{overflow-x:auto}
@@ -505,6 +506,28 @@ h1,h2,h3,.disp,.tb .h1,.tb .title,.walletchip b,.tile.hero b,.headline,.wcard .a
 .nxp .in{background:var(--surface)}
 .nxp .ob-foot{padding:10px 22px 24px}
 
+
+/* ---- projection + guided demo ---- */
+.proj .pf{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;margin:10px 0}
+.proj .pf label{font-weight:600;font-size:13.5px}
+.proj .pf output{font-weight:700;color:var(--brandText);font-size:13.5px}
+.proj .pf input[type=range]{grid-column:1/-1;width:100%;accent-color:#14126B}
+.proj .res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.proj .res div{background:var(--bg2,#F3F4FB);border-radius:12px;padding:12px}
+.proj .res small{display:block;color:var(--muted);font-size:12px}
+.proj .res b{font-size:19px;color:var(--brandText)}
+.proj .res .big{background:#14126B}.proj .res .big small{color:#C7CEF8}.proj .res .big b{color:#E8C94A}
+#demoCard{position:fixed;left:0;right:0;margin:0 auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:min(440px,calc(100vw - 20px));z-index:500;background:#14126B;color:#fff;border-radius:18px;padding:14px 16px 12px;box-shadow:0 14px 40px rgba(10,10,40,.5);font-size:14px;line-height:1.45}
+#demoCard .dw{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#C7CEF8;font-weight:700}
+#demoCard h4{margin:6px 0 4px;font-size:16px;color:#E8C94A}
+#demoCard p{margin:0 0 10px;color:#EEF0FF}
+#demoCard .db{display:flex;gap:8px;justify-content:flex-end}
+#demoCard button{border:0;border-radius:10px;padding:9px 14px;font-weight:700;font-size:13.5px;cursor:pointer}
+#demoCard .dn{background:#E8C94A;color:#14126B}
+#demoCard .dx{background:rgba(255,255,255,.14);color:#fff}
+#demoCard .dots{display:flex;gap:4px;margin-top:2px}
+#demoCard .dots i{width:14px;height:4px;border-radius:2px;background:rgba(255,255,255,.25)}
+#demoCard .dots i.on{background:#E8C94A}
 /* ---- real-phone mode: the app fills the screen, no mockup frame ---- */
 #devbtn{display:none}
 @media (max-width:600px){
@@ -544,6 +567,7 @@ h1,h2,h3,.disp,.tb .h1,.tb .title,.walletchip b,.tile.hero b,.headline,.wcard .a
   <div class="roles" id="roles" role="group" aria-label="View as"></div>
   <div class="switches">
     <label class="sw"><input type="checkbox" id="off"> Weak network</label>
+    <button class="link" id="demoBtn">Guided demo</button>
     <button class="link" id="reset">Reset demo</button>
   </div>
 </header>
@@ -784,7 +808,7 @@ function initState(){
     audit:[{t:'Yesterday', text:'Bursar approved Prof. A. Adeyemi (1 of 2)'}, {t:'Last week', text:'You (Registrar) approved Manna Palace'}],
     reqTab:'pending', reason:{}, reqSeq:5, myReq:null, verseSeen:{},
     complaints:[{id:1, from:'Amaka O.', role:'Student', text:'My delivery intern marked my order as delivered but I never got it — can someone look into this?', at:'Yesterday', status:'open'}],
-    complaintSeq:1, vcai:{open:false, msgs:[]},
+    complaintSeq:1, vcai:{open:false, msgs:[]}, proj:{students:6000, active:30, perWeek:2, aov:3000, weeks:30, take:11, share:50},
     checklist:[
       {t:'Vendor commission agreements signed', d:true},
       {t:'Delivery intern pay and training agreed', d:false},
@@ -2382,6 +2406,36 @@ function approvalsPanel(){
     <div class="tabs">${tab('pending', 'Pending')}${tab('approved', 'Approved')}${tab('declined', 'Declined')}</div>
     ${list.length ? list.map(reqCard).join('') : `<div class="empty" style="padding:22px 6px"><b>Nothing ${S.reqTab === 'pending' ? 'waiting' : S.reqTab}</b>${S.reqTab === 'pending' ? 'New sign-ups from vendors and staff will appear here.' : ''}</div>`}</div>`;
 }
+function projCalc(){
+  const p = S.proj, active = Math.round(p.students * p.active / 100);
+  const orders = active * p.perWeek * p.weeks, gmv = orders * p.aov;
+  const rev = Math.round(gmv * p.take / 100), school = Math.round(rev * p.share / 100);
+  return {active, orders, gmv, rev, school, eden:rev - school};
+}
+function projOut(){
+  const c = projCalc();
+  return `<div class="res"><div><small>Active weekly students</small><b>${c.active.toLocaleString('en-NG')}</b></div>
+    <div><small>Food orders a year</small><b>${c.orders.toLocaleString('en-NG')}</b></div>
+    <div><small>Food sales a year</small><b>${N(c.gmv)}</b></div>
+    <div class="big"><small>Platform revenue a year</small><b>${N(c.rev)}</b></div>
+    <div class="big"><small>University share</small><b>${N(c.school)}</b></div>
+    <div class="big"><small>EDEN share</small><b>${N(c.eden)}</b></div></div>`;
+}
+function projPanel(){
+  const p = S.proj;
+  const f = (k, label, min, max, step, fmt) => `<div class="pf"><label for="pj_${k}">${label}</label><output id="pjo_${k}">${fmt(p[k])}</output><input id="pj_${k}" type="range" min="${min}" max="${max}" step="${step}" value="${p[k]}" data-proj="${k}"></div>`;
+  return `<div class="panel proj" id="projPanel"><h3>What EDEN could earn the university: a projection</h3>
+    <p class="muted">This is a projection from adjustable assumptions, not results. Food only; rides, services and the marketplace would add to it. Replace the starting numbers with real figures from the pilot.</p>
+    ${f('students', 'Students on campus (assumption)', 1000, 15000, 500, v => v.toLocaleString('en-NG'))}
+    ${f('active', 'Students ordering in a typical week', 5, 80, 5, v => v + '%')}
+    ${f('perWeek', 'Orders per active student, per week', 1, 6, 1, v => v)}
+    ${f('aov', 'Average food order', 1500, 6000, 250, v => N(v))}
+    ${f('weeks', 'Teaching weeks a year', 20, 40, 1, v => v)}
+    ${f('take', 'Platform take (% of food sales)', 5, 20, 1, v => v + '%')}
+    ${f('share', "University's share of platform revenue", 0, 100, 5, v => v + '%')}
+    <div id="projOut">${projOut()}</div>
+    <p class="muted" style="margin-top:10px">The platform take follows this prototype's own split: 8% from the kitchen, 25% of the delivery fee and a ${N(50)} service fee, about 11% of a ${N(3500)} order. The university share is a placeholder for what you negotiate.</p></div>`;
+}
 function adminView(){
   const mine = S.orders.filter(o => o.by === 'you' && o.status !== 'cancelled' && o.status !== 'rejected' && o.status !== 'queued' && o.id >= 1042);
   const live = S.orders.filter(isLive);
@@ -2400,6 +2454,7 @@ function adminView(){
       <div class="stat"><small>Revenue to university</small><b>${N(rev)}</b><i>commission and fees</i></div>
       <div class="stat"><small>Open complaints</small><b>${S.complaints.filter(c => c.status === 'open').length}</b><i>escalated by ${VCAI_NAME}</i></div>
     </div>
+    ${projPanel()}
     ${approvalsPanel()}
     <div class="grid2"><div>
       <div class="panel"><h3>Live orders</h3><div class="scrollx"><table><thead><tr><th>Order</th><th>Kitchen</th><th>Deliver to</th><th>Status</th><th style="text-align:right">Total</th></tr></thead><tbody>${rows}</tbody></table></div>
@@ -2416,7 +2471,7 @@ function adminView(){
     </div><div>
       <div class="panel"><h3>Facilities requests</h3><p class="muted">Reported by staff, worked by the Works Department. Urgent items are flagged.</p>${facKanban()}</div>
       <div class="panel"><h3>Registered fleet</h3><p class="muted">Every shuttle and cab driver on EDEN, with the plate number on file. This is what shows on their own profile and on a rider's trip.</p>
-        <table><thead><tr><th>Driver</th><th>Type</th><th>Vehicle</th><th>Plate</th></tr></thead><tbody>${FLEET.map(f => `<tr><td>${esc(f.driver)}</td><td>${esc(rideTypeOf(f.type)?.name || f.type)}</td><td>${esc(f.vehicle)}</td><td><b>${esc(f.plate)}</b></td></tr>`).join('')}</tbody></table></div>
+        <div class="scrollx"><table><thead><tr><th>Driver</th><th>Type</th><th>Vehicle</th><th>Plate</th></tr></thead><tbody>${FLEET.map(f => `<tr><td>${esc(f.driver)}</td><td>${esc(rideTypeOf(f.type)?.name || f.type)}</td><td>${esc(f.vehicle)}</td><td><b>${esc(f.plate)}</b></td></tr>`).join('')}</tbody></table></div></div>
       <div class="panel"><h3>Approval log</h3><ul class="audit">${S.audit.slice(0, 6).map(a => `<li><time>${a.t}</time><span>${esc(a.text)}</span></li>`).join('')}</ul></div>
       <div class="panel"><h3>Launch checklist · ${done} of ${S.checklist.length}</h3>${S.checklist.map((c, i) => `<button class="check ${c.d ? 'done' : ''}" data-act="chk" data-id="${i}"><span class="box">${ic('check',14)}</span><span>${c.t}</span></button>`).join('')}</div>
     </div></div></div></div>`;
@@ -3003,6 +3058,14 @@ document.addEventListener('change', e => {
   if(t.dataset.sel === 'seller'){ S.sellerView = t.value; render(); }
 });
 document.addEventListener('input', e => {
+  const pk = e.target.dataset && e.target.dataset.proj;
+  if(pk){
+    S.proj[pk] = +e.target.value;
+    const o = document.getElementById('pjo_' + pk), fm = {students:v => v.toLocaleString('en-NG'), aov:v => N(v), active:v => v + '%', take:v => v + '%', share:v => v + '%'};
+    if(o) o.textContent = (fm[pk] || (v => v))(S.proj[pk]);
+    const out = document.getElementById('projOut'); if(out) out.innerHTML = projOut();
+    return;
+  }
   const k = e.target.dataset.model; if(k) S.compose[k] = e.target.value;
   const f = e.target.dataset.form; if(f){ S.form[f] = e.target.value; }
   if(e.target.dataset.note) S.notice.note = e.target.value;
@@ -3059,6 +3122,58 @@ document.getElementById('reset').addEventListener('click', () => {
 function startSplash(){ setTimeout(() => { if(S.stage === 'splash'){ S.stage = 'welcome'; if(S.role === 'student') render(); } }, 2600); }
 const returning = loadAuth();
 render();
+
+
+/* ---------- guided demo ---------- */
+let demoI = -1, demoV = null, demoO = null;
+const DEMO = [
+  {who:'Student', t:'A student opens EDEN', d:'Everything a student needs on campus lives in one app: food, rides, services, the marketplace and a wallet.', run(){
+    S = initState(); S.stage = 'app'; S.role = 'student'; S.persona = 'student'; S.tab = S.screen = 'home'; S.vcai.open = false; render(); window.scrollTo({top:0}); }},
+  {who:'Student', t:'Picks a kitchen', d:'Each kitchen shows its hours and delivery time. Closed kitchens can\'t take orders.', run(){
+    demoV = VENDORS.find(v => !S.closed[v.id] && MENU[v.id]).id; ACT.vendor(demoV); }},
+  {who:'Student', t:'Adds food and checks out', d:'The total shows food, delivery to the chosen hall, and a small service fee, before anything is paid.', run(){
+    const it = MENU[demoV]; ACT.add(it[0].id); ACT.add(it[0].id); if(it[1]) ACT.add(it[1].id); ACT.cart(); }},
+  {who:'Student', t:'Pays from the wallet', d:'The money leaves the wallet only when the order is placed. If the kitchen declines, it is refunded.', run(){
+    const q = quote(); if(q.total > S.wallet) S.wallet += q.total; ACT.place(); demoO = S.orders[S.orders.length - 1].id; }},
+  {who:'Kitchen', t:'The kitchen accepts', d:'The vendor sees the order on their own screen and accepts it. An order nobody accepts within 5 minutes cancels and refunds itself.', run(){
+    S.session.vendor = true; S.launched.vendor = true; S.role = 'vendor'; S.vendorView = demoV; render(); ACT.vAccept(demoO); }},
+  {who:'Kitchen', t:'Prepares it and marks it ready', d:'Ready orders appear for delivery interns straight away.', run(){ ACT.vPrep(demoO); ACT.vReady(demoO); }},
+  {who:'Delivery intern', t:'An intern picks it up', d:'Students on campus earn from deliveries, and the student sees who is bringing their order.', run(){
+    S.session.rider = true; S.launched.rider = true; S.role = 'rider'; render(); ACT.rTake(demoO); }},
+  {who:'Student', t:'Delivered', d:'The student follows every step with times, and can rate the kitchen afterwards.', run(){
+    ACT.rDone(demoO); S.role = 'student'; S.persona = 'student'; S.tab = 'orders'; S.screen = 'track'; S.activeId = demoO; render(); }},
+  {who:'VC\'s AI', t:'An assistant that knows the campus', d:'Students ask in plain words. It answers from their own orders and wallet and from verified Redeemer\'s University facts. Try: “Who is the Vice-Chancellor?”', run(){
+    S.tab = S.screen = 'home'; S.vcai.open = true; render(); }},
+  {who:'Management', t:'What it could earn the university', d:'Management sees live orders, approvals and complaints. The projection panel lets you change the assumptions and see the yearly numbers.', run(){
+    S.vcai.open = false; S.session.admin = true; S.launched.admin = true; S.role = 'admin'; render();
+    setTimeout(() => { const el = document.getElementById('projPanel'); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }, 80); }},
+  {who:'Honest note', t:'What is real, what is simulated', d:'This walkthrough is a prototype: payments, kitchens and riders are simulated here, and the revenue figures are a projection. VC\'s AI is live. The separate working app already handles real sign-ups, orders and messages.', run(){ S.role = 'admin'; render(); }}
+];
+function demoCardEl(){
+  let el = document.getElementById('demoCard');
+  if(!el){ el = document.createElement('div'); el.id = 'demoCard'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Guided demo'); document.body.appendChild(el); }
+  return el;
+}
+function demoShow(){
+  const st = DEMO[demoI], el = demoCardEl(), last = demoI === DEMO.length - 1;
+  el.innerHTML = `<div class="dw"><span>${st.who} · ${demoI + 1} of ${DEMO.length}</span></div><h4>${st.t}</h4><p>${st.d}</p>
+    <div class="db"><button class="dx" data-demo="exit">${last ? 'Close' : 'Exit'}</button>${last ? '<button class="dn" data-demo="again">Run again</button>' : '<button class="dn" data-demo="next">Next</button>'}</div>
+    <div class="dots">${DEMO.map((_, i) => `<i class="${i <= demoI ? 'on' : ''}"></i>`).join('')}</div>`;
+}
+function demoStep(i){
+  demoI = i; document.body.classList.remove('show-top');
+  try{ DEMO[i].run(); }catch(e){ console.warn('demo step failed', e); }
+  demoShow();
+}
+function demoStart(){ demoStep(0); }
+function demoExit(){ demoI = -1; const el = document.getElementById('demoCard'); if(el) el.remove(); try{ localStorage.removeItem('eden-auth'); }catch(e){} S = initState(); startSplash(); render(); }
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('[data-demo]'); if(!b) return;
+  const a = b.dataset.demo;
+  if(a === 'next') demoStep(demoI + 1); else if(a === 'again') demoStart(); else demoExit();
+});
+document.getElementById('demoBtn').addEventListener('click', demoStart);
+if(/[?&]demo\b/.test(location.search)) setTimeout(demoStart, 400);
 
 document.getElementById('devbtn').addEventListener('click', () => document.body.classList.toggle('show-top'));
 document.getElementById('roles').addEventListener('click', e => { if(e.target.closest('[data-role]')) document.body.classList.remove('show-top'); });
