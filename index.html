@@ -1461,11 +1461,12 @@ const VCAI_KB = [
   {kw:['deputy vice','dvc'], a:"As last reported (March 2025), the Deputy Vice-Chancellor is Prof. Peter Aderonmu, a professor of Architecture."},
   {kw:['provost','postgraduate'], a:"As last reported (March 2025), Prof. Adeleke Osho is Provost of the College of Postgraduate Studies."},
   {kw:['registrar','bursar','librarian'], a:"As last reported in 2025: Pastor David Akintola was Acting Registrar, Dr. Pauline Adeniran was Acting University Librarian, and Mr. Samuel Momodu is the Bursar. These may have changed, so please confirm with the Registry."},
-  {kw:['dean','hod','head of department'], a:"Deans and Heads of Department are re-appointed each academic session, so I can't be sure who holds a post right now. The Registry or your department office can confirm. I'm happy to help with anything else on campus."},
+  {kw:['dean','hod','head of department','director'], a:"Last known (2024/25; most terms ended July 2025, so these may have changed): Deans — Management Sciences, Prof. Kenneth Okpala; Engineering, Prof. Ife Adewumi; Built Environment, Prof. Peter Aderonmu (now Deputy VC). Ask me about a specific department, like Computer Science or Law, and I'll tell you who headed it. The Registry can confirm current holders."},
   {kw:['about run','redeemer', 'university', 'school info', 'tell me about','founded','history'], a:"Redeemer's University (RUN) is a private university owned by the Redeemed Christian Church of God, in Ede, Osun State. It was licensed in January 2005 and began classes that October. The campus covers about 812 hectares and the motto is “Running with a Vision”. It has faculties including Humanities, Management Sciences, Social Sciences, Natural Sciences, Basic Medical Sciences, Law, Engineering and Built Environment. Ask me about a specific building or office and I'll point you the right way."},
   {kw:['hostel','cafeteria','library','faculty','where is'], a:"You can see every campus location — hostels, cafeterias, the Tekena Tamuno Library, faculties and staff areas — as pickup/delivery points across Food, Rides and Facilities Requests. Open any of those and tap the location selector to browse the full list."}
 ];
-const RUN_FACTS = "Private university owned by the RCCG, in Ede, Osun State; licensed Jan 2005, classes began Oct 2005; about 812 hectares; motto Running with a Vision. Visitor: Pastor E.A. Adeboye. Chancellor: Gen. T.Y. Danjuma (Rtd). Pro-Chancellor and Council Chair: Prof. Toyin Ogundipe (Oct 2024). Vice-Chancellor: Prof. Shadrach Olufemi Akindele (since 2023). Deputy VC: Prof. Peter Aderonmu (Mar 2025). Provost, Postgraduate College: Prof. Adeleke Osho (Mar 2025). Acting Registrar Pastor David Akintola and Acting Librarian Dr. Pauline Adeniran (Feb 2025); Bursar Mr. Samuel Momodu (2025). Past VCs: Tomori, Adeyewa, Akinlo. Faculties: Humanities, Management Sciences, Social Sciences, Natural Sciences, Basic Medical Sciences, Law, Engineering, Built Environment. Deans and HODs change every August and current names are unknown: do not state them. Fees and student numbers are unknown.";
+const RUN_HODS = "Deans (2024/25): Built Environment Prof. Peter Aderonmu (since became DVC); Management Sciences Prof. Kenneth Okpala; Engineering Prof. Ife Adewumi. Directors: DEST Prof. Olumide Ekanade; General Studies Dr. Ayodeji Shittu; Entrepreneurial Development Dr. Olanrewaju Adeyanju; Gender, Humanitarian and Development Studies Dr. Oluwatoyin Ilesanmi; Research Innovations and Partnerships Dr. Chiagoziem Otuechere. Acting HODs 2024/25: English Dr. Olufemi Adebayo; Theatre Arts Dr. Rantimi Julius-Adeoye; History and International Studies Dr. Benjamin Anaemene; Psychology Dr. Aderonke Akintola; Private and Property Law Dr. Adebiyi Adepoju; Public Law Dr. Gideon Gasu; Jurisprudence and International Law Dr. Adetutu Aina-Pelemo; Civil Engineering Dr. Adeyemi Fajobi; Electrical and Electronics Engineering Dr. Oluropo Dairo; Mechanical Engineering Dr. Olanrewaju Adesina; Architecture Dr. Oladunni Izobo-Martins; Quantity Surveying Dr. Akintayo Opawole; Accounting Dr. Temitope Worimegbe; Finance Dr. Oyinlola Akinyede; Business Administration and Marketing Dr. Solomon Agada; Hospitality and Tourism Dr. Elizabeth Abiola-Oke; Transport Management Dr. Adeyinka Ajayi; Economics Dr. Olusola Oyeleke; Mass Communication Dr. Emmanuel Ifeduba; Political Science Dr. Leke Oluwalogbon; Sociology and Social Work Dr. Olubukola Wellington; Nursing Science Dr. Deborah Onisile; Public Health Dr. Oghenetega Avwioroko; Physiotherapy Dr. Opeyemi Idowu; Biochemistry Dr. Olusegun Adebayo; Anatomy Dr. Dayo Omotoso; Chemical Sciences Dr. Temidayo Oyetunde; Computer Science Dr. Bosede Oguntunde; Environmental Management and Toxicology Prof. Femi Ayoade.";
+const RUN_FACTS = "Private university owned by the RCCG, in Ede, Osun State; licensed Jan 2005, classes began Oct 2005; about 812 hectares; motto Running with a Vision. Visitor: Pastor E.A. Adeboye. Chancellor: Gen. T.Y. Danjuma (Rtd). Pro-Chancellor and Council Chair: Prof. Toyin Ogundipe (Oct 2024). Vice-Chancellor: Prof. Shadrach Olufemi Akindele (since 2023). Deputy VC: Prof. Peter Aderonmu (Mar 2025). Provost, Postgraduate College: Prof. Adeleke Osho (Mar 2025). Acting Registrar Pastor David Akintola and Acting Librarian Dr. Pauline Adeniran (Feb 2025); Bursar Mr. Samuel Momodu (2025). Past VCs: Tomori, Adeyewa, Akinlo. Faculties: Humanities, Management Sciences, Social Sciences, Natural Sciences, Basic Medical Sciences, Law, Engineering, Built Environment. Deans and HODs change every August; the 2024/25 list is given separately when asked, and must be presented as last known (terms mostly ended 31 Jul 2025), never as current. Fees and student numbers are unknown.";
 function vcaiMatch(text){
   const t = text.toLowerCase();
   const hit = VCAI_KB.find(e => e.kw.some(k => t.includes(k)));
@@ -1475,7 +1476,7 @@ function vcaiMatch(text){
    If the function is unreachable the scripted answers above take over, so the demo never breaks. ---- */
 const VCAI_ENDPOINT = 'https://fvyenmqoxwvrmmxlqxoj.supabase.co/functions/v1/vc-ai';
 const VCAI_KEY = 'sb_publishable_dukvgHjbaSdiv4avoefKxw_MMvLEPVn';
-function vcaiContext(){
+function vcaiContext(q){
   try{
     const L = [], id = roleIdentity();
     L.push(`User: ${id.name}${id.sub ? ' (' + id.sub + ')' : ''}. Role: ${S.role}.`);
@@ -1488,7 +1489,8 @@ function vcaiContext(){
     L.push('Kitchens: ' + VENDORS.map(v => `${v.name} (${v.cuisine}, ${v.eta}, open ${v.hours}${S.closed[v.id] ? ', CLOSED right now' : ''})`).join('; ') + '.');
     L.push('Local time: ' + new Date().toLocaleTimeString('en-NG', {hour:'2-digit', minute:'2-digit'}) + '.');
     L.push('Redeemer\'s University facts (dated; if unsure, say so and refer to the Registry; never invent names): ' + RUN_FACTS);
-    L.push('How EDEN works: ' + VCAI_KB.map(e => e.a).join(' '));
+    if(/dean|hod|head|department|director|faculty|college/i.test(q || '')) L.push('2024/25 Deans, Directors and acting HODs (last known list; most terms ended 31 Jul 2025, so say these may have changed and the Registry can confirm): ' + RUN_HODS);
+    else L.push('How EDEN works: ' + VCAI_KB.map(e => e.a).join(' '));
     return L.join('\n');
   }catch(e){ return ''; }
 }
@@ -1497,7 +1499,7 @@ async function vcaiLive(text, bubble){
   let reply = '', dbg = 'empty reply';
   try{
     const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 20000);
-    const r = await fetch(VCAI_ENDPOINT, {method:'POST', signal:ctl.signal, headers:{'Content-Type':'application/json', apikey:VCAI_KEY}, body:JSON.stringify({message:text, history:hist, context:vcaiContext()})});
+    const r = await fetch(VCAI_ENDPOINT, {method:'POST', signal:ctl.signal, headers:{'Content-Type':'application/json', apikey:VCAI_KEY}, body:JSON.stringify({message:text, history:hist, context:vcaiContext(text)})});
     clearTimeout(t);
     if(r.ok){ const j = await r.json(); reply = String(j.reply || '').trim(); }
     else { dbg = 'HTTP ' + r.status + ' ' + (await r.text().catch(() => '')).slice(0, 200); }
