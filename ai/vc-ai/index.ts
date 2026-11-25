@@ -89,7 +89,7 @@ async function callModel(system: string, msgs: Msg[]): Promise<string> {
     return (j.content || []).map((c: any) => c.text || "").join("").trim();
   }
   if (env("GEMINI_API_KEY")) {
-    const m = model || "gemini-2.5-flash";
+    const m = model || "gemini-3.5-flash-lite";
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`, {
       method: "POST",
       headers: { "x-goog-api-key": env("GEMINI_API_KEY"), "content-type": "application/json" },
